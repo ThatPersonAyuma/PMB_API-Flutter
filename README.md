@@ -12,3 +12,4 @@ Project ni merupakan tugas implementasi api melalui aplikasi mobile menggunakan 
 ![PBM3](PBM3.jpeg)
 ![PBM4](PBM4.jpeg)
 ![PBM5](PBM5.jpeg)
+![PBM6](PBM6.jpeg)
