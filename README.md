@@ -1,7 +1,7 @@
 # pbm_api
-Nama: Aditya Bayu Pratama
-Nim: 242410103043
-Kelas: PBM C
+Nama: Aditya Bayu Pratama <br>
+Nim: 242410103043 <br>
+Kelas: PBM C <br>
 
 A new Flutter project for course's task.<br>
 Project ni merupakan tugas implementasi api melalui aplikasi mobile menggunakan framework flutter. Berikut beberapa screenshoot tampilan aplikasi.
