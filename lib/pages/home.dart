@@ -176,53 +176,56 @@ class _HomeState extends State<HomeBody> {
   Widget build(BuildContext context) {
     return _isLoading
         ? const Center(child: CircularProgressIndicator())
-        : (products.isNotEmpty
-              ? buildProductsView()
-              : const EmptyProduct());
+        : (products.isNotEmpty ? buildProductsView() : const EmptyProduct());
   }
 
   Widget buildProductsView() {
-    return ListView.builder(
-      itemCount: products.length,
-      itemBuilder: (context, index) {
-        final product = products[index];
-
-        return SlideMenu(
-          menuItems: <Widget>[
-            Container(
-              color: Colors.black12,
-              child: IconButton(
-                icon: const Icon(Icons.more_horiz),
-                onPressed: () {
-                  print("Please Implement detail page");
-                },
-              ),
-            ),
-            Container(
-              color: Colors.red,
-              child: IconButton(
-                color: Colors.white,
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  print("Please Implement delete method");
-                },
-              ),
-            ),
-          ],
-          child: ListTile(
-            titleAlignment: ListTileTitleAlignment.center,
-            leading: Icon(Icons.shopping_cart, size: 36),
-            title: Text(product.name),
-            subtitle: Text(
-              "Harga: ${product.price}\n${product.description}",
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
-            contentPadding: const EdgeInsets.only(left: 20),
-            isThreeLine: true,
-          ),
-        );
+    return RefreshIndicator(
+      onRefresh: () async {
+        await refreshProducts();
       },
+      child: ListView.builder(
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          final product = products[index];
+
+          return SlideMenu(
+            menuItems: <Widget>[
+              Container(
+                color: Colors.black12,
+                child: IconButton(
+                  icon: const Icon(Icons.more_horiz),
+                  onPressed: () {
+                    print("Please Implement detail page");
+                  },
+                ),
+              ),
+              Container(
+                color: Colors.red,
+                child: IconButton(
+                  color: Colors.white,
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    print("Please Implement delete method");
+                  },
+                ),
+              ),
+            ],
+            child: ListTile(
+              titleAlignment: ListTileTitleAlignment.center,
+              leading: Icon(Icons.shopping_cart, size: 36),
+              title: Text(product.name),
+              subtitle: Text(
+                "Harga: ${product.price}\n${product.description}",
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
+              contentPadding: const EdgeInsets.only(left: 20),
+              isThreeLine: true,
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -232,19 +235,20 @@ class EmptyProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      spacing: 20,
-      children: [
-        Icon(Icons.do_not_disturb_alt_sharp, size: 100,),
-        Text(
-          "Belum Ada Produk\nCoba tambahkan produk dengan menekan tombol plus (+)",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 18,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 20,
+        children: [
+          Icon(Icons.do_not_disturb_alt_sharp, size: 100),
+          Text(
+            "Belum Ada Produk\nCoba tambahkan produk dengan menekan tombol plus (+)",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 18),
           ),
-        ),
-      ],
+        ],
+      )
     );
   }
 }
