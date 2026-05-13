@@ -29,14 +29,16 @@ class _StateManage extends State<ManageProduct> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Tambah Produk")),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
+      body: 
+        SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 30),
+        child: Form(
+          key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 30),
               const Text("Nama"),
               TextFormField(
                 controller: nameController,
@@ -114,11 +116,10 @@ class _StateManage extends State<ManageProduct> {
                   style: TextStyle(color: Colors.black, fontSize: 18),
                 ),
               ),
-              const SizedBox(height: 50,),
             ],
           ),
         ), 
-      ), 
+      ),
     );
   }
 }

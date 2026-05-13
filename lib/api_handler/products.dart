@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'shared.dart';
-import 'login.dart';
 
 class Product {
   final int productId;
@@ -33,7 +32,6 @@ class ProductHandler {
   const ProductHandler({required this.token});
 
   Future<List<Product>?> getDataProducts() async {
-    print("Getting data");
     final url = Uri.parse('$BASE_URL/api/products');
 
     final response = await http.get(
@@ -44,16 +42,12 @@ class ProductHandler {
         'Accept': 'application/json',
       },
     );
-    print(response.body);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       List<dynamic> productsJson = data['data']['products'];
-      print(productsJson);
       List<Product> products = productsJson
           .map<Product>((json) => Product.fromJson(json))
           .toList();
-      print(products);
       return products;
       // Simpan token menggunakan flutter_secure_storage
       // agar dapat digunakan pada request berikutnya

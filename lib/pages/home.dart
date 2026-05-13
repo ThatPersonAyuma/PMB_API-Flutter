@@ -42,8 +42,8 @@ class HomePage extends StatelessWidget {
                   ListTile(
                     title: const Text('Submit Tugas'),
                     trailing: const Icon(Icons.assignment_turned_in),
-                    onTap: () {
-                      showDialog(
+                    onTap: () async {
+                      String res = await showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           SubmitHandler handler = SubmitHandler();
@@ -55,13 +55,25 @@ class HomePage extends StatelessWidget {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pop(context, 'Cancel');
+                                  Navigator.pop(
+                                    context,
+                                    'Pengumpulan tugas dibatalkan',
+                                  );
                                 },
                                 child: Text("Batalkan"),
                               ),
                               TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context, 'OK');
+                                onPressed: () async {
+                                  bool res = await handler.submitTask(token);
+                                  if (!context.mounted) {
+                                    return;
+                                  }
+                                  if (res == true) {
+                                    Navigator.pop(
+                                      context,
+                                      'Berhasil mengumpulkan tugas',
+                                    );
+                                  }
                                 },
                                 child: Text("Submit"),
                               ),
@@ -69,6 +81,12 @@ class HomePage extends StatelessWidget {
                           );
                         },
                       );
+                      if (!context.mounted) {
+                        return;
+                      }
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(res)));
                     },
                   ),
                 ],
@@ -133,9 +151,7 @@ class _HomeState extends State<HomeBody> {
   @override
   void initState() {
     super.initState();
-    print("INIT STATE");
     _productHandler = ProductHandler(token: widget.token);
-    print("HANDLER CREATED");
     _loadProducts();
   }
 
@@ -149,7 +165,6 @@ class _HomeState extends State<HomeBody> {
 
   Future<void> _loadProducts() async {
     List<Product>? products = await _productHandler.getDataProducts();
-    print("Result: $products");
     if (!mounted) return;
     setState(() {
       this.products = products ?? [];
@@ -163,7 +178,7 @@ class _HomeState extends State<HomeBody> {
         ? const Center(child: CircularProgressIndicator())
         : (products.isNotEmpty
               ? buildProductsView()
-              : Text("Belum ada produk"));
+              : const EmptyProduct());
   }
 
   Widget buildProductsView() {
@@ -208,6 +223,28 @@ class _HomeState extends State<HomeBody> {
           ),
         );
       },
+    );
+  }
+}
+
+class EmptyProduct extends StatelessWidget {
+  const EmptyProduct({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 20,
+      children: [
+        Icon(Icons.do_not_disturb_alt_sharp, size: 100,),
+        Text(
+          "Belum Ada Produk\nCoba tambahkan produk dengan menekan tombol plus (+)",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18,
+          ),
+        ),
+      ],
     );
   }
 }

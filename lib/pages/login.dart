@@ -15,7 +15,7 @@ class LoginPage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.blue, Colors.purple],
+            colors: [Colors.blue, const Color.fromARGB(255, 10, 188, 215)],
           ),
         ),
         child: const Center(child: LoginForm()),
@@ -56,7 +56,7 @@ class _LoginFormState extends State<LoginForm> {
             textAlign: TextAlign.center,
             softWrap: true,
             maxLines: 2,
-            style: TextStyle(color: Colors.black, fontSize: 18),
+            style: TextStyle(color: Colors.white, fontSize: 18),
           ),
           SizedBox(height: 20),
           TextFormField(
